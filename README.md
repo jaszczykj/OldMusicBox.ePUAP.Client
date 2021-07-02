@@ -25,6 +25,7 @@ Please refer to the change list and the road map below.
 |WS-Doręczyciel|**partial**|
 |WS-pull|**yes**|
 |WS-ZarzadzanieDokumentami|**partial**|
+|WS-FileRepoService|**yes**|
 |Single Log Out|not yet|
 |.NET Framework|4.6.2+|
 |.NET Core|not yet|
