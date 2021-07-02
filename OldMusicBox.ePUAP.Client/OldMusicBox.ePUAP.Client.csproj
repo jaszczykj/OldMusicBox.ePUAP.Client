@@ -37,6 +37,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -53,6 +54,7 @@
     <Compile Include="Constants\Namespaces.cs" />
     <Compile Include="Constants\OMBClaimTypes.cs" />
     <Compile Include="DoreczycielClient.cs" />
+    <Compile Include="FileRepoServiceClient.cs" />
     <Compile Include="Model\AddDocumentToSigning\AddDocumentToSigningRequest.cs" />
     <Compile Include="Model\AddDocumentToSigning\AddDocumentToSigningResponse.cs" />
     <Compile Include="Model\AddDocumentToSigning\AddDocumentToSigningResponseHandler.cs" />
@@ -61,6 +63,12 @@
     <Compile Include="Model\Common\BaseServiceResponseHandler.cs" />
     <Compile Include="Model\Common\StatusModel.cs" />
     <Compile Include="Model\Dokumenty\Dokument.cs" />
+    <Compile Include="Model\FileRepoService\DownloadFileRequest.cs" />
+    <Compile Include="Model\FileRepoService\DownloadFileResponseHandler.cs" />
+    <Compile Include="Model\FileRepoService\DownloadFileResponse.cs" />
+    <Compile Include="Model\FileRepoService\UploadFileRequest.cs" />
+    <Compile Include="Model\FileRepoService\UploadFileResponse.cs" />
+    <Compile Include="Model\FileRepoService\UploadFileResponseHandler.cs" />
     <Compile Include="SSOClient.cs" />
     <Compile Include="XML\XmlConverter.cs" />
     <Compile Include="Model\Doreczyciel\DoreczRequest.cs" />

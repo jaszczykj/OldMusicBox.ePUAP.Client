@@ -51,5 +51,10 @@ namespace OldMusicBox.ePUAP.Client.Model.GetTpUserInfo
                 throw new ServiceClientException("Cannot deserialize GetTpUserInfoResponse", ex);
             }
         }
+
+        public GetTpUserInfoResponse FromSOAP(byte[] soapResponse, string content_typeResponse, out FaultModel fault)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

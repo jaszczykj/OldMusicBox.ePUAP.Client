@@ -11,6 +11,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 
 namespace OldMusicBox.ePUAP.Demo.Controllers
@@ -285,21 +286,60 @@ namespace OldMusicBox.ePUAP.Demo.Controllers
             //WSSkrytka_Demo(certificate);
             //WSPull_Demo(certificate);
             //WSZarzadzanieDokumentami_DodajDokument_Demo(certificate);
-            WSDoreczyciel_Dorecz_Demo(certificate);
+            //WSDoreczyciel_Dorecz_Demo(certificate);
 
+
+            return Redirect("/Home/Index");
+        }
+        public ActionResult WSFileRepoService_UploadDemo()
+        {
+            var certificate = new ClientCertificateProvider().GetClientCertificate();
+            var fileName = HostingEnvironment.MapPath("/Content/test.pdf");
+            
+            var podmiot = new AppSettingsProvider().GetPodmiot();
+
+            var fileId5 = WSFileRepoService_UploadDemo(certificate,fileName,podmiot);
+            this.TempData.Add("Message", fileId5);
+            this.Session.Add("url", fileId5);
+            return Redirect("/Home/Index");
+        }
+
+        public ActionResult WSFileRepoService_DownloadDemo()
+        {
+            var certificate = new ClientCertificateProvider().GetClientCertificate();
+            var podmiot = new AppSettingsProvider().GetPodmiot();
+
+            var fileId = this.Session["url"].ToString();
+            byte[] content;
+            var fileName = WSFileRepoService_DownloadDemo(certificate,fileId,podmiot,out content);
+            this.TempData.Add("Message", fileName);
+            System.IO.File.WriteAllBytes($"c:\\temp\\{fileName}", content);
+            return Redirect("/Home/Index");
+        }
+        public ActionResult WSSkrytka_Demo()
+        {
+            var certificate = new ClientCertificateProvider().GetClientCertificate();
+            var id= WSSkrytka_Demo(certificate);
+            this.TempData.Add("Message", $"Identyfikator dokumentu {id}");
             return Redirect("/Home/Index");
         }
 
         /// <summary>
         /// Nadanie dokumentu do zewnętrznej skrytki ze wskazaniem własnej skrytki jako skrytki odpowiedzi
         /// </summary>
-        private void WSSkrytka_Demo(X509Certificate2 certificate)
+        private int WSSkrytka_Demo(X509Certificate2 certificate)
         {
             FaultModel fault;
 
-            var _podmiot         = "vulcandpo";
-            var _adresSkrytki    = "/vulcandpo/testowa";
-            var _adresOdpowiedzi = "/vulcandpo/domyslna";
+            var _podmiot = new AppSettingsProvider().GetPodmiot();
+            var _adresSkrytki = new AppSettingsProvider().GetAdresSkrytki();
+            var _adresOdpowiedzi = new AppSettingsProvider().GetAdresOdpowiedzi();
+            var _zawartosc = System.IO.File.ReadAllText(HostingEnvironment.MapPath("/Content/Pismo_ogolne.xml"));
+            var _fileId = this.Session["url"].ToString();
+            if (!String.IsNullOrEmpty(_fileId))
+            {
+                _zawartosc = _zawartosc.Replace("@DaneZalacznika@", _fileId).Replace("@nazwaPliku@", "test.pdf");
+            }
 
             var client = new SkrytkaClient(SkrytkaClient.INTEGRATION_URI, certificate);
             var response = client.Nadaj(
@@ -311,24 +351,32 @@ namespace OldMusicBox.ePUAP.Demo.Controllers
                 new Client.Model.Skrytka.DocumentType()
                 {
                     NazwaPliku = "testowy.xml",
-                    TypPliku   = "text/xml",
-                    Zawartosc  = Encoding.UTF8.GetBytes(ExampleDocument)
+                    TypPliku = "text/xml",
+                    Zawartosc = Encoding.UTF8.GetBytes(_zawartosc)
                 },
                 out fault);
+            return response.IdentyfikatorDokumentu;
         }
 
+        public ActionResult WSPull_Demo()
+        {
+            var certificate = new ClientCertificateProvider().GetClientCertificate();
+            var id = WSPull_Demo(certificate);
+            this.TempData.Add("Message", $"Odebrano {id} dokumentów");
+            return Redirect("/Home/Index");
+        }
         /// <summary>
         /// Sprawdzenie liczby oczekujacych dokumentów a następnie odebranie dokumentów
         /// </summary>
-        private void WSPull_Demo(X509Certificate2 certificate)
+        private int WSPull_Demo(X509Certificate2 certificate)
         {
             FaultModel fault;
-
+            int odebrane = 0;
             var client = new PullClient(PullClient.INTEGRATION_URI, certificate);
 
-            var _podmiot      = "vulcandpo";
-            var _nazwaSkrytki = "testowa";
-            var _adresSkrytki = "/vulcandpo/testowa";
+            var _podmiot = new AppSettingsProvider().GetPodmiot();
+            var _nazwaSkrytki = new AppSettingsProvider().GetNazwaSkrytki();
+            var _adresSkrytki = new AppSettingsProvider().GetAdresSkrytki();
 
             var oczekujaceDokumenty = client.OczekujaceDokumenty(_podmiot, _nazwaSkrytki, _adresSkrytki, out fault);
             if ( fault != null )
@@ -338,25 +386,29 @@ namespace OldMusicBox.ePUAP.Demo.Controllers
 
             if ( oczekujaceDokumenty.Oczekujace > 0 )
             {
-                // repeat this in a loop
-                var pobierzNastepny = client.PobierzNastepny(_podmiot, _nazwaSkrytki, _adresSkrytki, out fault);
-                if (fault != null)
+                for (int i = 0; i < oczekujaceDokumenty.Oczekujace; i++)
                 {
-                    throw new ApplicationException("Consult fault object for more details");
-                }
-
-                if (pobierzNastepny.Dokument != null &&
-                    pobierzNastepny.Dokument.Zawartosc != null
-                    )
-                {
-                    using (var sha1 = new SHA1CryptoServiceProvider())
+                    var pobierzNastepny = client.PobierzNastepny(_podmiot, _nazwaSkrytki, _adresSkrytki, out fault);
+                    if (fault != null)
                     {
-                        var _skrot = sha1.ComputeHash(pobierzNastepny.Dokument.Zawartosc);
+                        throw new ApplicationException("Consult fault object for more details");
+                    }
 
-                        var potwierdzOdebranie = client.PotwierdzOdebranie(_podmiot, _nazwaSkrytki, _adresSkrytki, _skrot, out fault);
+                    if (pobierzNastepny.Dokument != null &&
+                        pobierzNastepny.Dokument.Zawartosc != null
+                        )
+                    {
+                        using (var sha1 = new SHA1CryptoServiceProvider())
+                        {
+                            var _skrot = sha1.ComputeHash(pobierzNastepny.Dokument.Zawartosc);
+
+                            var potwierdzOdebranie = client.PotwierdzOdebranie(_podmiot, _nazwaSkrytki, _adresSkrytki, _skrot, out fault);
+                            odebrane++;
+                        }
                     }
                 }
             }
+            return odebrane;
         }
 
         /// <summary>
@@ -442,6 +494,39 @@ namespace OldMusicBox.ePUAP.Demo.Controllers
         }
 
 
+        private string WSFileRepoService_UploadDemo(X509Certificate2 certificate, string fileName, string podmiot)
+        {
+            FaultModel fault;
+
+            var client = new FileRepoServiceClient(FileRepoServiceClient.INTEGRATION_URI, certificate);
+            
+            string _file = Convert.ToBase64String(System.IO.File.ReadAllBytes(fileName));
+            string _filename = Path.GetFileName(fileName);
+            string _mimeType = MimeMapping.GetMimeMapping(fileName);
+            string _subject = podmiot;
+
+            var uploadFile = client.UploadFile(_file, _filename, _mimeType, _subject, out fault);
+            if (fault != null)
+            {
+                throw new ApplicationException("Consult fault object for more details");
+            }
+            return uploadFile.FileId5;
+        }
+
+        private string WSFileRepoService_DownloadDemo(X509Certificate2 certificate, string fileId, string podmiot, out byte[] content)
+        {
+            FaultModel fault;
+
+            var client = new FileRepoServiceClient(FileRepoServiceClient.INTEGRATION_URI, certificate);
+
+            var downloadFile = client.DownloadFile(fileId, podmiot, out fault);
+            if (fault != null)
+            {
+                throw new ApplicationException("Consult fault object for more details");
+            }
+            content = downloadFile.File;
+            return downloadFile.Filename;
+        }
 
         #endregion
     }

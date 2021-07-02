@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="http://crd.gov.pl/wzor/2011/06/08/599/styl.xsl"?>
+<wnio:Dokument xmlns:adr="http://crd.gov.pl/xml/schematy/adres/2009/11/09/"
+               xmlns:adrs="http://crd.gov.pl/xml/schematy/adres/2008/05/09/"
+               xmlns:ev="http://www.w3.org/2001/xml-events"
+               xmlns:inst="http://crd.gov.pl/xml/schematy/instytucja/2009/11/16/"
+               xmlns:insts="http://crd.gov.pl/xml/schematy/instytucja/2008/05/09/"
+               xmlns:meta="http://crd.gov.pl/xml/schematy/meta/2009/11/16/"
+               xmlns:metas="http://crd.gov.pl/xml/schematy/meta/2008/05/09/"
+               xmlns:oso="http://crd.gov.pl/xml/schematy/osoba/2009/11/16/"
+               xmlns:osos="http://crd.gov.pl/xml/schematy/osoba/2008/05/09/"
+               xmlns:str="http://crd.gov.pl/xml/schematy/struktura/2009/11/16/"
+               xmlns:strs="http://crd.gov.pl/xml/schematy/struktura/2008/05/09/"
+               xmlns:wnio="http://crd.gov.pl/wzor/2011/06/08/599/"
+               xmlns:xf="http://www.w3.org/2002/xforms"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xmlns:xxforms="http://orbeon.org/oxf/xml/xforms"
+               xsi:schemaLocation="http://crd.gov.pl/wzor/2011/06/08/599/ http://crd.gov.pl/wzor/2011/06/08/599/schemat.xsd">
+  <wnio:OpisDokumentu>
+    <str:CID>ba016326d5bcddb8c60a06d94c535fdb290137f7@epuap      .gov.pl</str:CID>
+    <meta:Identyfikator typIdentyfikatora="idFormularza">
+      <meta:Wartosc>cpimswia/Pismo ogolne duże        pliki TST</meta:Wartosc>
+    </meta:Identyfikator>
+    <meta:RodzajDokumentu>
+      <meta:Kategoria>tekst</meta:Kategoria>
+    </meta:RodzajDokumentu>
+  </wnio:OpisDokumentu>
+  <wnio:DaneDokumentu>
+    <meta:Data typDaty="stworzony">
+      <meta:Czas>2015-09-17</meta:Czas>
+    </meta:Data>
+    <str:Adresaci>
+      <meta:Podmiot>
+        <inst:Instytucja>
+          <inst:NazwaInstytucji>CENTRUM PROJEKTÓW INFORMATYCZNYCH</inst:NazwaInstytucji>
+          <adr:Adres>
+            <adr:KodPocztowy>01-150</adr:KodPocztowy>
+            <adr:Poczta>WARSZAWA</adr:Poczta>
+            <adr:Miejscowosc>WARSZAWA</adr:Miejscowosc>
+            <adr:Ulica>UL. SYRENY</adr:Ulica>
+            <adr:Budynek>23</adr:Budynek>
+            <adr:Lokal/>
+          </adr:Adres>
+        </inst:Instytucja>
+      </meta:Podmiot>
+    </str:Adresaci>
+    <str:Nadawcy>
+      <meta:Podmiot>
+        <inst:Instytucja>
+          <inst:IdInstytucji>
+            <inst:NIP/>
+            <inst:REGON/>
+          </inst:IdInstytucji>
+          <inst:NazwaInstytucji>CENTRUM PROJEKTÓW INFORMATYCZNYCH</inst:NazwaInstytucji>
+          <adr:Adres>
+            <adr:KodPocztowy>01-150</adr:KodPocztowy>
+            <adr:Poczta>WARSZAWA</adr:Poczta>
+            <adr:Miejscowosc>WARSZAWA</adr:Miejscowosc>
+            <adr:Ulica>UL. SYRENY</adr:Ulica>
+            <adr:Budynek>23</adr:Budynek>
+            <adr:Lokal/>
+          </adr:Adres>
+          <adr:Kontakt>
+            <adr:Telefon/>
+            <adr:Email/>
+          </adr:Kontakt>
+        </inst:Instytucja>
+      </meta:Podmiot>
+    </str:Nadawcy>
+  </wnio:DaneDokumentu>
+  <wnio:TrescDokumentu format="text/xml"
+                       kodowanie="XML">
+    <wnio:MiejscowoscDokumentu>WARSZAWA</wnio:MiejscowoscDokumentu>
+    <wnio:Tytul>test duże pliki</wnio:Tytul>
+    <wnio:RodzajWnioskuRozszerzony jakiInny="inne pismo"
+                                   rodzaj="wniosek"/>
+    <wnio:Informacje>
+      <wnio:Informacja>treść pisma</wnio:Informacja>
+    </wnio:Informacje>
+    <wnio:Oswiadczenia>
+      <wnio:Oswiadczenie>
+        Korespondencję w tej
+        sprawie proszę kierować do mnie za pomocą środków komunikacji
+        elektronicznej zgodnie z art. 39' ustawy z dnia 14 czerwca 1960 r.
+        Kodeks
+        postępowania administracyjnego (Dz. U. z 2000 r. Nr 98, poz. 1071, z
+        późn.
+        zm.).
+      </wnio:Oswiadczenie>pdf
+    </wnio:Oswiadczenia>
+    <wnio:DoWiadomosci/>
+    <str:Zalaczniki>
+      <str:Zalacznik format="application/pdf"
+                     kodowanie="URI"
+                     nazwaPliku="@nazwaPliku@">
+        <str:DaneZalacznika>@DaneZalacznika@</str:DaneZalacznika>
+        <str:OpisZalacznika/>
+      </str:Zalacznik>
+    </str:Zalaczniki>
+  </wnio:TrescDokumentu>
+</wnio:Dokument>

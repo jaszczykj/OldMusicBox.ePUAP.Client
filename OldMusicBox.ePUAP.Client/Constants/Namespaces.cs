@@ -53,6 +53,10 @@ namespace OldMusicBox.ePUAP.Client.Constants
         public const string ZARZADZANIEDOKUMENTAMI = "http://ws.epuap.gov.pl/zarzadzanieDokumentami";
 
         /// <summary>
+        /// epuap.gov/filerepo
+        /// </summary>
+        public const string FILEREPOCORE = "http://wsdl.epuap.gov.pl/filerepocore/";
+        /// <summary>
         /// WS-Security utility
         /// </summary>
         public const string WS_SEC_UTILITY = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";

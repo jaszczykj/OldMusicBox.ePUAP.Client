@@ -51,5 +51,10 @@ namespace OldMusicBox.ePUAP.Client.Model.GetSignedDocument
                 throw new ServiceClientException("Cannot deserialize GetSignedDocument", ex);
             }
         }
+
+        public GetSignedDocumentResponse FromSOAP(byte[] soapResponse, string content_typeResponse, out FaultModel fault)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -51,5 +51,10 @@ namespace OldMusicBox.ePUAP.Client.Model.VerifySignedDocument
                 throw new ServiceClientException("Cannot deserialize VerifySignedDocument", ex);
             }
         }
+
+        public VerifySignedDocumentResponse FromSOAP(byte[] soapResponse, string content_typeResponse, out FaultModel fault)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

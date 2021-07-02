@@ -76,10 +76,13 @@ namespace OldMusicBox.ePUAP.Client
                 webClient.Headers[HttpRequestHeader.ContentType] = "text/xml";
 
                 string response = null;
+                byte[] byteResponse;
                 try
                 {
                     // POST it
-                    response = webClient.UploadString(serviceUrl, requestString);
+                    //response = webClient.UploadString(serviceUrl, requestString);
+                    byteResponse = webClient.UploadData(serviceUrl, Encoding.UTF8.GetBytes(requestString));
+                    response = Encoding.UTF8.GetString(byteResponse);
                 }
                 catch (WebException ex)
                 {
@@ -112,7 +115,11 @@ namespace OldMusicBox.ePUAP.Client
                     new LoggerFactory().For(this).Debug(Event.SignedMessage, response);
 
                     var responseHandler = new TResultResponseHandler();
-                    return responseHandler.FromSOAP(response, out fault);
+                    var content_type = webClient.ResponseHeaders["content-type"];
+                    if (content_type.Contains("multipart/related"))
+                        return responseHandler.FromSOAP(byteResponse, content_type, out fault);
+                    else
+                        return responseHandler.FromSOAP(response, out fault);
                 }
                 else
                 {

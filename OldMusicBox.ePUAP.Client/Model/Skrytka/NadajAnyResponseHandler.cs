@@ -24,6 +24,11 @@ namespace OldMusicBox.ePUAP.Client.Model.Skrytka
             return FromSOAP_Template<NadajAnyResponse>(soapResponse, out fault);
         }
 
+        public NadajAnyResponse FromSOAP(byte[] soapResponse, string content_typeResponse, out FaultModel fault)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void AddManagerNamespaces(XmlNamespaceManager manager)
         {
             manager.AddNamespace("soapenv", Namespaces.SOAPENVELOPE);

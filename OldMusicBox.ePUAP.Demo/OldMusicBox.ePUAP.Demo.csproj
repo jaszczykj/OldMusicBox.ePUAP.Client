@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -95,12 +96,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Pismo_ogolne.xml" />
     <Content Include="Global.asax" />
     <Content Include="Content\appcert.p12" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Code\AppSettingsProvider.cs" />
     <Compile Include="Code\ClientCertificateProvider.cs" />
     <Compile Include="Code\ePUAPClientIssuerNameRegistry.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -121,6 +124,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Signed.cshtml" />
+    <Content Include="Content\test.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\PublishProfiles\file.pubxml" />
     <Content Include="Views\Home\AddDocumentToSigning.cshtml" />
     <Content Include="Views\Home\AddDocumentToSigningSuccess.cshtml" />

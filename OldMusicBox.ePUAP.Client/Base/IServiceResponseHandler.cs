@@ -14,5 +14,6 @@ namespace OldMusicBox.ePUAP.Client.Model
         where TResult : class, IServiceResponse
     {
         TResult FromSOAP(string soapResponse, out FaultModel fault);
+        TResult FromSOAP(byte[] soapResponse, string content_typeResponse, out FaultModel fault);
     }
 }

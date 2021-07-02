@@ -51,5 +51,10 @@ namespace OldMusicBox.ePUAP.Client.Model.AddDocumentToSigning
                 throw new ServiceClientException("Cannot deserialize AddDocumentToSigning", ex);
             }
         }
+
+        public AddDocumentToSigningResponse FromSOAP(byte[] soapResponse, string content_typeResponse, out FaultModel fault)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

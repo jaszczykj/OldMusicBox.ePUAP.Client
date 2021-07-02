@@ -19,6 +19,11 @@ namespace OldMusicBox.ePUAP.Client.Model.ZarzadzanieDokumentami
             return FromSOAP_Template<DodajDokumentResponse>(soapResponse, out fault);
         }
 
+        public DodajDokumentResponse FromSOAP(byte[] soapResponse, string content_typeResponse, out FaultModel fault)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void AddManagerNamespaces(XmlNamespaceManager manager)
         {
             manager.AddNamespace("soapenv", Namespaces.SOAPENVELOPE);
